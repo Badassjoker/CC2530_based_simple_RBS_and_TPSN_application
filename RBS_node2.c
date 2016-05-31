@@ -11,7 +11,7 @@
 #include "hal_lcd.h"
 #include "hal_led.h"
 #include "hal_key.h"
-#include  "MT_UART.h" //此处用于串口
+#include  "MT_UART.h"
 
 // This list should be filled with Application specific Cluster IDs.
 const cId_t SampleApp_ClusterList[SAMPLEAPP_MAX_CLUSTERS] =
@@ -70,9 +70,9 @@ void SampleApp_Init( uint8 task_id )
   
   osal_setClock(0);
   
-  MT_UartInit();//串口初始化
-  MT_UartRegisterTaskID(task_id);//登记任务号
-  //HalUARTWrite(0,"Hello World\n",12); //（串口0，'字符'，字符个数。）
+  MT_UartInit();
+  MT_UartRegisterTaskID(task_id);
+  //HalUARTWrite(0,"Hello World\n",12);
   
   // Device hardware initialization can be added here or in main() (Zmain.c).
   // If the hardware is application specific - add it here.
@@ -190,7 +190,7 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
   if ( events & SAMPLEAPP_SEND_PERIODIC_MSG_EVT )
   {
     // Send the periodic message
-    //SampleApp_SendPeriodicMessage();//周期性发送函数
+    //SampleApp_SendPeriodicMessage();
 
     // Setup to send message again in normal period (+ a little jitter)
     osal_start_timerEx( SampleApp_TaskID, SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
@@ -280,11 +280,11 @@ void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
 
 void SampleApp_SendPeriodicMessage( void )
 {
-  uint8 data[10]={'0','1','2','3','4','5','6','7','8','9'};//自定义数据
+  uint8 data[10]={'0','1','2','3','4','5','6','7','8','9'};
   if ( AF_DataRequest( &SampleApp_Periodic_DstAddr, &SampleApp_epDesc,
                        SAMPLEAPP_PERIODIC_CLUSTERID,
-                       10,//字节数
-                       data,//指针头
+                       10,
+                       data,
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
@@ -318,8 +318,6 @@ void SampleApp_SendFlashMessage( uint16 flashTime )
   }
 }
 
-/*********************************************************************
-*********************************************************************/
 void SampleApp_ConvertToUChar(uint32 seconds)
 {
   uint8 tempUsing = 0;
@@ -356,8 +354,8 @@ void SampleApp_SendClockMessage( void )
   if ( AF_DataRequest( &SampleApp_Flash_DstAddr,
                        &SampleApp_epDesc,
                        SAMPLEAPP_FLASH_CLUSTERID,
-                       10,//字节数
-                       converted,//指针头
+                       10,
+                       converted,
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
