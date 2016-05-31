@@ -1,61 +1,3 @@
-/**************************************************************************************************
-  Filename:       SampleApp.c
-  Revised:        $Date: 2009-03-18 15:56:27 -0700 (Wed, 18 Mar 2009) $
-  Revision:       $Revision: 19453 $
-
-  Description:    Sample Application (no Profile).
-
-
-  Copyright 2007 Texas Instruments Incorporated. All rights reserved.
-
-  IMPORTANT: Your use of this Software is limited to those specific rights
-  granted under the terms of a software license agreement between the user
-  who downloaded the software, his/her employer (which must be your employer)
-  and Texas Instruments Incorporated (the "License").  You may not use this
-  Software unless you agree to abide by the terms of the License. The License
-  limits your use, and you acknowledge, that the Software may not be modified,
-  copied or distributed unless embedded on a Texas Instruments microcontroller
-  or used solely and exclusively in conjunction with a Texas Instruments radio
-  frequency transceiver, which is integrated into your product.  Other than for
-  the foregoing purpose, you may not use, reproduce, copy, prepare derivative
-  works of, modify, distribute, perform, display or sell this Software and/or
-  its documentation for any purpose.
-
-  YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
-  PROVIDED ìAS IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
-  INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
-  NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
-  TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
-  NEGLIGENCE, STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER
-  LEGAL EQUITABLE THEORY ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES
-  INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE
-  OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT
-  OF SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
-  (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
-
-  Should you have any questions regarding your right to use this Software,
-  contact Texas Instruments Incorporated at www.TI.com.
-**************************************************************************************************/
-
-/*********************************************************************
-  This application isn't intended to do anything useful, it is
-  intended to be a simple example of an application's structure.
-
-  This application sends it's messages either as broadcast or
-  broadcast filtered group messages.  The other (more normal)
-  message addressing is unicast.  Most of the other sample
-  applications are written to support the unicast message model.
-
-  Key control:
-    SW1:  Sends a flash command to all devices in Group 1.
-    SW2:  Adds/Removes (toggles) this device in and out
-          of Group 1.  This will enable and disable the
-          reception of the flash command.
-*********************************************************************/
-
-/*********************************************************************
- * INCLUDES
- */
 #include <math.h>
 #include "OSAL.h"
 #include "ZGlobals.h"
@@ -74,7 +16,7 @@
 #include "hal_led.h"
 #include "hal_key.h"
 
-#include  "MT_UART.h" //¥À¥¶”√”⁄¥Æø⁄
+#include  "MT_UART.h" //Ê≠§Â§ÑÁî®‰∫é‰∏≤Âè£
 
 /*********************************************************************
  * MACROS
@@ -185,9 +127,9 @@ void SampleApp_Init( uint8 task_id )
   
   osal_setClock(0);
   
-  MT_UartInit();//¥Æø⁄≥ı ºªØ
-  MT_UartRegisterTaskID(task_id);//µ«º«»ŒŒÒ∫≈
-  //HalUARTWrite(0,"Hello World\n",12); //£®¥Æø⁄0£¨'◊÷∑˚'£¨◊÷∑˚∏ˆ ˝°££©
+  MT_UartInit();//‰∏≤Âè£ÂàùÂßãÂåñ
+  MT_UartRegisterTaskID(task_id);//ÁôªËÆ∞‰ªªÂä°Âè∑
+  //HalUARTWrite(0,"Hello World\n",12); //Ôºà‰∏≤Âè£0Ôºå'Â≠óÁ¨¶'ÔºåÂ≠óÁ¨¶‰∏™Êï∞„ÄÇÔºâ
   
   // Device hardware initialization can be added here or in main() (Zmain.c).
   // If the hardware is application specific - add it here.
@@ -432,8 +374,8 @@ void SampleApp_SendPeriodicMessage( void )
 {
   if ( AF_DataRequest( &SampleApp_Periodic_DstAddr, &SampleApp_epDesc,
                        SAMPLEAPP_PERIODIC_CLUSTERID,
-                       10,//◊÷Ω⁄ ˝
-                       T1,//÷∏’ÎÕ∑
+                       10,//Â≠óËäÇÊï∞
+                       T1,//ÊåáÈíàÂ§¥
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
@@ -516,8 +458,8 @@ void SampleApp_SendClockMessage( void )
   if ( AF_DataRequest( &SampleApp_Flash_DstAddr,
                        &SampleApp_epDesc,
                        SAMPLEAPP_FLASH_CLUSTERID,
-                       10,//◊÷Ω⁄ ˝
-                       T1,//÷∏’ÎÕ∑
+                       10,//Â≠óËäÇÊï∞
+                       T1,//ÊåáÈíàÂ§¥
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
