@@ -310,8 +310,8 @@ void SampleApp_SendPeriodicMessage( void )
   SampleApp_ConvertToT1(t1);
   if ( AF_DataRequest( &SampleApp_Periodic_DstAddr, &SampleApp_epDesc,
                        SAMPLEAPP_PERIODIC_CLUSTERID,
-                       10,//字节数
-                       T1,//指针头
+                       10,
+                       T1,
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
@@ -474,8 +474,8 @@ void SampleApp_SendClockMessage( void )
   if ( AF_DataRequest( &SampleApp_Flash_DstAddr,
                        &SampleApp_epDesc,
                        SAMPLEAPP_FLASH_CLUSTERID,
-                       10,//字节数
-                       T6,//指针头
+                       10,
+                       T6,
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
