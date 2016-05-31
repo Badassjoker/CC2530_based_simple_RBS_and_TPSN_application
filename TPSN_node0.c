@@ -5,34 +5,13 @@
 #include "aps_groups.h"
 #include "ZDApp.h"
 #include "OSAL_Clock.h"
-
 #include "SampleApp.h"
 #include "SampleAppHw.h"
-
 #include "OnBoard.h"
-
-/* HAL */
 #include "hal_lcd.h"
 #include "hal_led.h"
 #include "hal_key.h"
-
-#include  "MT_UART.h" //此处用于串口
-
-/*********************************************************************
- * MACROS
- */
-
-/*********************************************************************
- * CONSTANTS
- */
-
-/*********************************************************************
- * TYPEDEFS
- */
-
-/*********************************************************************
- * GLOBAL VARIABLES
- */
+#include  "MT_UART.h"
 
 // This list should be filled with Application specific Cluster IDs.
 const cId_t SampleApp_ClusterList[SAMPLEAPP_MAX_CLUSTERS] =
@@ -60,17 +39,6 @@ const SimpleDescriptionFormat_t SampleApp_SimpleDesc =
 // way it's defined in this sample app it is define in RAM.
 endPointDesc_t SampleApp_epDesc;
 
-/*********************************************************************
- * EXTERNAL VARIABLES
- */
-
-/*********************************************************************
- * EXTERNAL FUNCTIONS
- */
-
-/*********************************************************************
- * LOCAL VARIABLES
- */
 uint8 SampleApp_TaskID;   // Task ID for internal task/event processing
                           // This variable will be received when
                           // SampleApp_Init() is called.
@@ -86,9 +54,6 @@ aps_Group_t SampleApp_Group;
 uint8 SampleAppPeriodicCounter = 0;
 uint8 SampleAppFlashCounter = 0;
 
-/*********************************************************************
- * LOCAL FUNCTIONS
- */
 void SampleApp_HandleKeys( uint8 shift, uint8 keys );
 void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
 void SampleApp_SendPeriodicMessage( void );
@@ -97,28 +62,6 @@ void SampleApp_ConvertToT1(uint32 seconds);
 void SampleApp_ConvertToT2(uint32 seconds);
 void SampleApp_SendClockMessage( void );
 
-/*********************************************************************
- * NETWORK LAYER CALLBACKS
- */
-
-/*********************************************************************
- * PUBLIC FUNCTIONS
- */
-
-/*********************************************************************
- * @fn      SampleApp_Init
- *
- * @brief   Initialization function for the Generic App Task.
- *          This is called during initialization and should contain
- *          any application specific initialization (ie. hardware
- *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
- *
- * @param   task_id - the ID assigned by OSAL.  This ID should be
- *                    used to send messages and set timers.
- *
- * @return  none
- */
 void SampleApp_Init( uint8 task_id )
 {
   SampleApp_TaskID = task_id;
@@ -187,19 +130,6 @@ void SampleApp_Init( uint8 task_id )
 #endif
 }
 
-/*********************************************************************
- * @fn      SampleApp_ProcessEvent
- *
- * @brief   Generic Application Task event processor.  This function
- *          is called to process all events for the task.  Events
- *          include timers, messages and any other user defined events.
- *
- * @param   task_id  - The OSAL assigned task ID.
- * @param   events - events to process.  This is a bit map and can
- *                   contain more than one event.
- *
- * @return  none
- */
 uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
 {
   afIncomingMSGPacket_t *MSGpkt;
@@ -274,21 +204,6 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
   return 0;
 }
 
-/*********************************************************************
- * Event Generation Functions
- */
-/*********************************************************************
- * @fn      SampleApp_HandleKeys
- *
- * @brief   Handles all key events for this device.
- *
- * @param   shift - true if in shift/alt.
- * @param   keys - bit field for key events. Valid entries:
- *                 HAL_KEY_SW_2
- *                 HAL_KEY_SW_1
- *
- * @return  none
- */
 void SampleApp_HandleKeys( uint8 shift, uint8 keys )
 {
   (void)shift;  // Intentionally unreferenced parameter
@@ -324,22 +239,6 @@ void SampleApp_HandleKeys( uint8 shift, uint8 keys )
   }
 }
 
-/*********************************************************************
- * LOCAL FUNCTIONS
- */
-
-/*********************************************************************
- * @fn      SampleApp_MessageMSGCB
- *
- * @brief   Data message processor callback.  This function processes
- *          any incoming data - probably from other devices.  So, based
- *          on cluster ID, perform the intended action.
- *
- * @param   none
- *
- * @return  none
- */
-
 unsigned char T1[10];
 uint32 t1;
 uint32 t2;
@@ -361,21 +260,12 @@ void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
   }
 }
 
-/*********************************************************************
- * @fn      SampleApp_SendPeriodicMessage
- *
- * @brief   Send the periodic message.
- *
- * @param   none
- *
- * @return  none
- */
 void SampleApp_SendPeriodicMessage( void )
 {
   if ( AF_DataRequest( &SampleApp_Periodic_DstAddr, &SampleApp_epDesc,
                        SAMPLEAPP_PERIODIC_CLUSTERID,
-                       10,//字节数
-                       T1,//指针头
+                       10,
+                       T1,
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
@@ -387,15 +277,6 @@ void SampleApp_SendPeriodicMessage( void )
   }
 }
 
-/*********************************************************************
- * @fn      SampleApp_SendFlashMessage
- *
- * @brief   Send the flash message to group 1.
- *
- * @param   flashTime - in milliseconds
- *
- * @return  none
- */
 void SampleApp_SendFlashMessage( uint16 flashTime )
 {
   uint8 buffer[3];
@@ -418,8 +299,6 @@ void SampleApp_SendFlashMessage( uint16 flashTime )
   }
 }
 
-/*********************************************************************
-*********************************************************************/
 void SampleApp_ConvertToT1(uint32 seconds)
 {
   uint8 tempUsing = 0;
@@ -458,8 +337,8 @@ void SampleApp_SendClockMessage( void )
   if ( AF_DataRequest( &SampleApp_Flash_DstAddr,
                        &SampleApp_epDesc,
                        SAMPLEAPP_FLASH_CLUSTERID,
-                       10,//字节数
-                       T1,//指针头
+                       10,
+                       T1,
                        &SampleApp_TransID,
                        AF_DISCV_ROUTE,
                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
